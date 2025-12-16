@@ -4,7 +4,7 @@
   <script>
   // 🔒 Redirect if not logged in
   if (!sessionStorage.getItem("isLoggedIn")) {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   }
 </script>
   <meta charset="UTF-8" />
@@ -266,11 +266,12 @@
       if (!lastActivity || Date.now() - lastActivity > IDLE_LIMIT) {
         sessionStorage.clear();
         alert("Session expired. Please log in again.");
-        window.location.href = "login.html";
+        window.location.href = "index.html";
       }
     }, 10000);
   </script>
 </body>
 </html>
+
 
 
