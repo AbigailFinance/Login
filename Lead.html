@@ -241,6 +241,39 @@
     modal.show();
   });
 </script>
+<script>
+  const IDLE_LIMIT = 3 * 60 * 1000; // 3 minutes
 
+  // 🔐 Block access if not logged in
+  if (!sessionStorage.getItem("isLoggedIn")) {
+    window.location.href = "login.html";
+  }
+
+  function updateActivity() {
+    sessionStorage.setItem("lastActivity", Date.now());
+  }
+
+  // Track user activity
+  ["click", "mousemove", "keypress", "scroll", "touchstart"].forEach(event => {
+    document.addEventListener(event, updateActivity);
+  });
+
+  // Check inactivity every 10 seconds
+  setInterval(() => {
+    const lastActivity = sessionStorage.getItem("lastActivity");
+
+    if (!lastActivity) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    if (Date.now() - lastActivity > IDLE_LIMIT) {
+      sessionStorage.clear();
+      alert("Session expired due to inactivity. Please log in again.");
+      window.location.href = "login.html";
+    }
+  }, 10000);
+</script>
 </body>
 </html>
+
