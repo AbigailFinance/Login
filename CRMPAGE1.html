@@ -202,7 +202,7 @@
 
   <!-- BROKER STATS -->
 <div class="row mt-5">
-  <div class="col-12">
+  <div class="col-md-6">
     <div class="dashboard-card">
       <h4 class="mb-4">Top Brokers – Conversion Performance</h4>
 
@@ -223,7 +223,31 @@
       </div>
     </div>
   </div>
+
+  <!-- BDM Stats Table -->
+  <div class="col-md-6">
+    <div class="dashboard-card">
+      <h4 class="mb-4">BDM Conversion Performance</h4>
+
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>BDM</th>
+              <th>Leads Submitted</th>
+              <th>Deals Completed</th>
+              <th>Conversion Rate</th>
+            </tr>
+          </thead>
+          <tbody id="bdmTableBody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 </div>
 
@@ -357,11 +381,42 @@ brokerStats.forEach(broker => {
     </tr>
   `;
 });
+
+  const bdmStats = [
+  { name: "Justin", leads: 20, completed: 15 },  // 75%
+  { name: "Jack", leads: 18, completed: 10 },    // 56%
+  { name: "Paul", leads: 15, completed: 5 }      // 33%
+];
+
+const bdmTableBody = document.getElementById("bdmTableBody");
+
+bdmStats.forEach(bdm => {
+  const rate = Math.round((bdm.completed / bdm.leads) * 100);
+
+  let badgeClass = "low";
+  if (rate >= 50) badgeClass = "high";
+  else if (rate >= 25) badgeClass = "medium";
+
+  bdmTableBody.innerHTML += `
+    <tr>
+      <td><strong>${bdm.name}</strong></td>
+      <td>${bdm.leads}</td>
+      <td>${bdm.completed}</td>
+      <td>
+        <span class="conversion-badge ${badgeClass}">
+          ${rate}%
+        </span>
+      </td>
+    </tr>
+  `;
+});
+
 </script>
 
 
 </body>
 </html>
+
 
 
 
