@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 🔒 Redirect if not logged in -->
+  <script>
+    if (!sessionStorage.getItem("isLoggedIn")) {
+      window.location.href = "crmpage1.html";
+    }
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customers | CRM</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Lato:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #022449;
+      --teal: #055f79;
+      --light: #ecebe8;
+      --gold: #d99623;
+      --white: #ffffff;
+    }
+
+    body {
+      background-color: var(--light);
+      font-family: 'Lato', sans-serif;
+      color: var(--navy);
+    }
+
+    h1, h2, h3 {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .navbar {
+      background-color: var(--white);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .navbar-brand img {
+      max-height: 45px;
+    }
+
+    .dashboard-card {
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 1.75rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .search-input {
+      border-radius: 2rem;
+      padding-left: 1rem;
+    }
+
+    .filter-btn.active {
+      background-color: var(--navy);
+      color: white;
+    }
+
+    .btn-gold {
+     background-color: var(--gold);
+     color: white;
+     border: none;
+    }
+
+    .btn-gold:hover {
+     background-color: #c5871f;
+     color: white;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg px-4 py-3">
+  <a class="navbar-brand" href="dashboard.html">
+    <img src="logo-horizontal.svg" alt="Logo">
+  </a>
+</nav>
+
+<!-- CUSTOMERS PAGE -->
+<div class="container py-5">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Customers</h1>
+
+    <!-- Add Customer -->
+    <a href="#" class="btn btn-gold rounded-pill">
+  <i class="bi bi-plus-circle me-1"></i> Add Customer
+</a>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="dashboard-card mb-4">
+    <div class="row g-3 align-items-center">
+      <div class="col-md-6">
+        <input
+          type="text"
+          id="customerSearch"
+          class="form-control search-input"
+          placeholder="Search customers or companies..."
+        >
+      </div>
+
+      <div class="col-md-6 text-md-end">
+        <div class="btn-group" role="group">
+          <button class="btn btn-outline-secondary filter-btn active" data-status="all">All</button>
+          <button class="btn btn-outline-secondary filter-btn" data-status="Blank">Prospect</button>
+          <button class="btn btn-outline-secondary filter-btn" data-status="Live Loan">Live Loan</button>
+          <button class="btn btn-outline-secondary filter-btn" data-status="Closed Loan">Closed Loan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customers Table -->
+  <div class="dashboard-card p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0" id="customersTable">
+        <thead class="table-light">
+          <tr>
+            <th>Customer Name</th>
+            <th>Company Name</th>
+            <th>Status</th>
+            <th>BDM</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr data-status="Blank">
+            <td>
+              <a href="#" class="text-decoration-none link-dark">
+                John Smith
+              </a>
+            </td>
+            <td>Smith Holdings Ltd</td>
+            <td><span class="badge bg-secondary"> Prospect</span></td>
+            <td>Jack</td>
+          </tr>
+
+          <tr data-status="Live Loan">
+            <td>
+              <a href="#" class="text-decoration-none link-dark">
+                Sarah Jones
+              </a>
+            </td>
+            <td>Jones Property Group</td>
+            <td><span class="badge bg-primary">Live Loan</span></td>
+            <td>Jack</td>
+          </tr>
+
+          <tr data-status="Closed Loan">
+            <td>
+              <a href="#" class="text-decoration-none link-dark">
+                Michael Brown
+              </a>
+            </td>
+            <td>Brown Developments</td>
+            <td><span class="badge bg-success">Closed Loan</span></td>
+            <td>Justin<td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  const searchInput = document.getElementById("customerSearch");
+  const rows = document.querySelectorAll("#customersTable tbody tr");
+  const filterButtons = document.querySelectorAll(".filter-btn");
+
+  let activeStatus = "all";
+
+  function filterTable() {
+    const query = searchInput.value.toLowerCase();
+
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      const status = row.dataset.status;
+
+      const matchesSearch = text.includes(query);
+      const matchesStatus = activeStatus === "all" || status === activeStatus;
+
+      row.style.display = matchesSearch && matchesStatus ? "" : "none";
+    });
+  }
+
+  searchInput.addEventListener("input", filterTable);
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeStatus = btn.dataset.status;
+      filterTable();
+    });
+  });
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
