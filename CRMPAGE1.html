@@ -4,7 +4,7 @@
   <!-- 🔒 Redirect if not logged in -->
   <script>
     if (!sessionStorage.getItem("isLoggedIn")) {
-      window.location.href = "Index.html";
+      window.location.href = "crmpage1.html";
     }
   </script>
 
@@ -19,6 +19,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Lato:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
+        .table th {
+      font-weight: 600;
+      color: var(--navy);
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    .conversion-badge {
+      padding: 0.35rem 0.65rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .high {
+      background-color: #d1f2eb;
+      color: #0f5132;
+    }
+
+    .medium {
+      background-color: #fff3cd;
+      color: #664d03;
+    }
+
+    .low {
+      background-color: #f8d7da;
+      color: #842029;
+    }
+
     :root {
       --navy: #022449;
       --teal: #055f79;
@@ -119,14 +147,14 @@
         &#8942;
       </button>
       <ul class="dropdown-menu dropdown-menu-end">
-        <li><a class="dropdown-item" href="CRMPAGE1.html">Dashboard</a></li>
-        <li><a class="dropdown-item" href="Lead.html">Request Terms</a></li>
+        <li><a class="dropdown-item" href="crmpage1.html">Dashboard</a></li>
+        <li><a class="dropdown-item" href="lead.html">New Lead</a></li>
         <li><a class="dropdown-item" href="Customer.html">Customers</a></li>
         <li><a class="dropdown-item" href="#">Brokers</a></li>
         <li><a class="dropdown-item" href="#">Solicitors</a></li>
         <li><hr class="dropdown-divider"></li>
         <li>
-          <a class="dropdown-item text-danger" href="CRMPAGE1.html" onclick="logout()">Logout</a>
+          <a class="dropdown-item text-danger" href="index.html" onclick="logout()">Logout</a>
         </li>
       </ul>
     </div>
@@ -171,6 +199,32 @@
       </div>
     </div>
   </div>
+
+  <!-- BROKER STATS -->
+<div class="row mt-5">
+  <div class="col-12">
+    <div class="dashboard-card">
+      <h4 class="mb-4">Top Brokers – Conversion Performance</h4>
+
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Broker</th>
+              <th>Leads Submitted</th>
+              <th>Deals Completed</th>
+              <th>Conversion Rate</th>
+            </tr>
+          </thead>
+          <tbody id="brokerTableBody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
 
 <script>
@@ -258,24 +312,53 @@ document.addEventListener("click", (e) => {
     if (!lastActivity || Date.now() - lastActivity > IDLE_LIMIT) {
       sessionStorage.clear();
       alert("Session expired. Please log in again.");
-      window.location.href = "Index.html";
+      window.location.href = "index.html";
     }
   }, 10000);
 
   function logout() {
     sessionStorage.clear();
-    window.location.href = "Index.html";
+    window.location.href = "index.html";
   }
 </script>
+<script>
+const brokerStats = [
+  { name: "Alpha Brokers Ltd", leads: 40, completed: 28 },   // 70%
+  { name: "Prime Finance Group", leads: 35, completed: 21 }, // 60%
+  { name: "Westbridge Finance", leads: 30, completed: 15 },  // 50%
+  { name: "Urban Capital Brokers", leads: 28, completed: 11 }, // 39%
+  { name: "Oakwood Lending", leads: 25, completed: 9 },     // 36%
+  { name: "Citywide Finance", leads: 22, completed: 7 },    // 32%
+  { name: "BlueStone Brokers", leads: 20, completed: 5 },   // 25%
+  { name: "Cornerstone Finance", leads: 18, completed: 4 }, // 22%
+  { name: "BridgeLink Advisors", leads: 16, completed: 3 }, // 19%
+  { name: "Rapid Finance Solutions", leads: 14, completed: 1 } // 7%
+];
+
+const brokerTableBody = document.getElementById("brokerTableBody");
+
+brokerStats.forEach(broker => {
+  const rate = Math.round((broker.completed / broker.leads) * 100);
+
+  let badgeClass = "low";
+  if (rate >= 50) badgeClass = "high";
+  else if (rate >= 25) badgeClass = "medium";
+
+  brokerTableBody.innerHTML += `
+    <tr>
+      <td><strong>${broker.name}</strong></td>
+      <td>${broker.leads}</td>
+      <td>${broker.completed}</td>
+      <td>
+        <span class="conversion-badge ${badgeClass}">
+          ${rate}%
+        </span>
+      </td>
+    </tr>
+  `;
+});
+</script>
+
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
