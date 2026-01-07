@@ -224,7 +224,6 @@
           <thead>
             <tr>
               <th>Broker</th>
-              <th>BDM</th>
               <th>Leads Submitted</th>
               <th>Deals Completed</th>
               <th>Conversion Rate</th>
@@ -365,16 +364,16 @@ document.addEventListener("click", (e) => {
 </script>
 <script>
 const brokerStats = [
-  { name: "Alpha Brokers Ltd", "Jack", leads: 40, completed: 28 },   // 70%
-  { name: "Prime Finance Group", "Jack",  leads: 35, completed: 21 }, // 60%
-  { name: "Westbridge Finance", "Justin", leads: 30, completed: 15 },  // 50%
-  { name: "Urban Capital Brokers", "Justin", leads: 28, completed: 11 }, // 39%
-  { name: "Oakwood Lending", "Jack",  leads: 25, completed: 9 },     // 36%
-  { name: "Citywide Finance", "Justin", leads: 22, completed: 7 },    // 32%
-  { name: "BlueStone Brokers", "Jack",  leads: 20, completed: 5 },   // 25%
-  { name: "Cornerstone Finance", "Jack",  leads: 18, completed: 4 }, // 22%
-  { name: "BridgeLink Advisors", "Justin",  leads: 16, completed: 3 }, // 19%
-  { name: "Rapid Finance Solutions", "Jack",  leads: 14, completed: 1 } // 7%
+  { name: "Alpha Brokers Ltd", leads: 40, completed: 28 },   // 70%
+  { name: "Prime Finance Group", leads: 35, completed: 21 }, // 60%
+  { name: "Westbridge Finance", leads: 30, completed: 15 },  // 50%
+  { name: "Urban Capital Brokers", leads: 28, completed: 11 }, // 39%
+  { name: "Oakwood Lending", leads: 25, completed: 9 },     // 36%
+  { name: "Citywide Finance", leads: 22, completed: 7 },    // 32%
+  { name: "BlueStone Brokers", leads: 20, completed: 5 },   // 25%
+  { name: "Cornerstone Finance", leads: 18, completed: 4 }, // 22%
+  { name: "BridgeLink Advisors", leads: 16, completed: 3 }, // 19%
+  { name: "Rapid Finance Solutions", leads: 14, completed: 1 } // 7%
 ];
 
 const brokerTableBody = document.getElementById("brokerTableBody");
@@ -434,6 +433,7 @@ bdmStats.forEach(bdm => {
 
 </body>
 </html>
+
 
 
 
