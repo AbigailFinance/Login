@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 🔒 Redirect if not logged in -->
+ <script>
+    if (!sessionStorage.getItem("isLoggedIn")) {
+      window.location.href = "CRMPAGE1.html";
+    }
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CRM Dashboard</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Lato:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+        .table th {
+      font-weight: 600;
+      color: var(--navy);
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    .conversion-badge {
+      padding: 0.35rem 0.65rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .high {
+      background-color: #d1f2eb;
+      color: #0f5132;
+    }
+
+    .medium {
+      background-color: #fff3cd;
+      color: #664d03;
+    }
+
+    .low {
+      background-color: #f8d7da;
+      color: #842029;
+    }
+
+    :root {
+      --navy: #022449;
+      --teal: #055f79;
+      --light: #ecebe8;
+      --gold: #d99623;
+      --white: #ffffff;
+    }
+
+    body {
+      background-color: var(--light);
+      font-family: 'Lato', sans-serif;
+      color: var(--navy);
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .navbar-brand img {
+      max-height: 45px;
+    }
+
+    .search-input {
+      border-radius: 2rem;
+      padding-left: 1rem;
+    }
+
+    .ellipsis-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--navy);
+    }
+
+    .dropdown-menu {
+      border-radius: 0.75rem;
+    }
+
+    /* Dashboard cards */
+    .dashboard-card {
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 1.75rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .dashboard-card h5 {
+      margin-bottom: 0.5rem;
+    }
+
+    .dashboard-card small {
+      color: #6c757d;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg px-4 py-3">
+  <a class="navbar-brand" href="#">
+    <img src="logo-horizontal.png" alt="Logo">
+  </a>
+
+  <div class="ms-auto d-flex align-items-center gap-3">
+
+    <div class="position-relative">
+  <input 
+    type="text" 
+    id="globalSearch"
+    class="form-control search-input"
+    placeholder="Search brokers, solicitors, customers..."
+    autocomplete="off"
+  >
+
+  <div 
+    id="searchResults" 
+    class="list-group position-absolute w-100 shadow"
+    style="z-index: 1000; display: none;">
+  </div>
+</div>
+
+
+    <!-- Ellipsis Dropdown -->
+    <div class="dropdown">
+      <button class="ellipsis-btn" data-bs-toggle="dropdown">
+        &#8942;
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="CRMPAGE1.html">Dashboard</a></li>
+        <li><a class="dropdown-item" href="Lead.html">Request Terms</a></li>
+        <li><a class="dropdown-item" href="Customer.html">Customers</a></li>
+        <li><a class="dropdown-item" href="Broker">Brokers</a></li>
+        <li><a class="dropdown-item" href="Solicitor">Solicitors</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <a class="dropdown-item text-danger" href="index.html" onclick="logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<!-- FILE UPLOAD PAGE CONTENT -->
+<div class="container py-5">
+
+  <!-- PAGE HEADER -->
+  <div class="dashboard-card mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="mb-0">File Uploads</h1>
+      <div>
+        <input type="file" id="fileInput" class="form-control form-control-sm" />
+      </div>
+    </div>
+    <p class="text-muted">Select a file to upload. The table below will display all uploaded files.</p>
+  </div>
+
+  <!-- FILES TABLE -->
+  <div class="dashboard-card">
+    <h3 class="mb-4">Uploaded Files</h3>
+
+    <div class="table-responsive">
+      <table class="table align-middle" id="filesTable">
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th>Uploaded Date</th>
+            <th>Uploaded By</th>
+            <th>Expiry Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <td>Signed OIP.PDF</td>
+          <td>05/01/2026</td>
+          <td>Paul Waters</td>
+          <td></td>
+        </tbody>
+        <tbody>
+          <td>Valuation.PDF</td>
+          <td>06/01/2026</td>
+          <td>Jack Tolchard</td>
+          <td>06/03/2026</td>
+          <td></td>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const filesTableBody = document.querySelector('#filesTable tbody');
+
+  // Dummy current user
+  const currentUser = "John Smith";
+
+  fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const uploadedDate = new Date();
+    const expiryDate = new Date();
+    expiryDate.setMonth(expiryDate.getMonth() + 6); // Example: 6 months expiry
+
+    // Format dates as DD MMM YYYY
+    const formatDate = (date) => {
+      return date.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      });
+    };
+
+    // Create table row
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${file.name}</td>
+      <td>${formatDate(uploadedDate)}</td>
+      <td>${currentUser}</td>
+      <td>${formatDate(expiryDate)}</td>
+    `;
+
+    filesTableBody.appendChild(row);
+
+    // Reset input
+    fileInput.value = '';
+  });
+</script>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ⏳ Idle Timeout -->
+<script>
+  const IDLE_LIMIT = 3 * 60 * 1000;
+
+  function updateActivity() {
+    sessionStorage.setItem("lastActivity", Date.now());
+  }
+
+  ["click", "mousemove", "keypress", "scroll", "touchstart"].forEach(event => {
+    document.addEventListener(event, updateActivity);
+  });
+
+  setInterval(() => {
+    const lastActivity = sessionStorage.getItem("lastActivity");
+
+    if (!lastActivity || Date.now() - lastActivity > IDLE_LIMIT) {
+      sessionStorage.clear();
+      alert("Session expired. Please log in again.");
+      window.location.href = "index.html";
+    }
+  }, 10000);
+
+  function logout() {
+    sessionStorage.clear();
+    window.location.href = "index.html";
+  }
+</script>
+<script>
+const brokerStats = [
+  { name: "Alpha Brokers Ltd", leads: 40, completed: 28 },   // 70%
+  { name: "Prime Finance Group", leads: 35, completed: 21 }, // 60%
+  { name: "Westbridge Finance", leads: 30, completed: 15 },  // 50%
+  { name: "Urban Capital Brokers", leads: 28, completed: 11 }, // 39%
+  { name: "Oakwood Lending", leads: 25, completed: 9 },     // 36%
+  { name: "Citywide Finance", leads: 22, completed: 7 },    // 32%
+  { name: "BlueStone Brokers", leads: 20, completed: 5 },   // 25%
+  { name: "Cornerstone Finance", leads: 18, completed: 4 }, // 22%
+  { name: "BridgeLink Advisors", leads: 16, completed: 3 }, // 19%
+  { name: "Rapid Finance Solutions", leads: 14, completed: 1 } // 7%
+];
+
+const brokerTableBody = document.getElementById("brokerTableBody");
+
+brokerStats.forEach(broker => {
+  const rate = Math.round((broker.completed / broker.leads) * 100);
+
+  let badgeClass = "low";
+  if (rate >= 50) badgeClass = "high";
+  else if (rate >= 25) badgeClass = "medium";
+
+  brokerTableBody.innerHTML += `
+    <tr>
+      <td><strong>${broker.name}</strong></td>
+      <td>${broker.leads}</td>
+      <td>${broker.completed}</td>
+      <td>
+        <span class="conversion-badge ${badgeClass}">
+          ${rate}%
+        </span>
+      </td>
+    </tr>
+  `;
+});
+
+  const bdmStats = [
+  { name: "Justin", leads: 20, completed: 15 },  // 75%
+  { name: "Jack", leads: 18, completed: 10 },    // 56%
+  { name: "Paul", leads: 15, completed: 5 }      // 33%
+];
+
+const bdmTableBody = document.getElementById("bdmTableBody");
+
+bdmStats.forEach(bdm => {
+  const rate = Math.round((bdm.completed / bdm.leads) * 100);
+
+  let badgeClass = "low";
+  if (rate >= 50) badgeClass = "high";
+  else if (rate >= 25) badgeClass = "medium";
+
+  bdmTableBody.innerHTML += `
+    <tr>
+      <td><strong>${bdm.name}</strong></td>
+      <td>${bdm.leads}</td>
+      <td>${bdm.completed}</td>
+      <td>
+        <span class="conversion-badge ${badgeClass}">
+          ${rate}%
+        </span>
+      </td>
+    </tr>
+  `;
+});
+
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
