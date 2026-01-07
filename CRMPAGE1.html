@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <!-- 🔒 Redirect if not logged in -->
-  <script>
+ <!-- <script>
     if (!sessionStorage.getItem("isLoggedIn")) {
-      window.location.href = "CRMPAGE1.html";
+      window.location.href = "crmpage1.html";
     }
-  </script>
+  </script>-->
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -147,11 +147,11 @@
         &#8942;
       </button>
       <ul class="dropdown-menu dropdown-menu-end">
-        <li><a class="dropdown-item" href="CRMPAGE1.html">Dashboard</a></li>
-        <li><a class="dropdown-item" href="Lead.html">New Lead</a></li>
+        <li><a class="dropdown-item" href="crmpage1.html">Dashboard</a></li>
+        <li><a class="dropdown-item" href="lead.html">New Lead</a></li>
         <li><a class="dropdown-item" href="Customer.html">Customers</a></li>
         <li><a class="dropdown-item" href="#">Brokers</a></li>
-        <li><a class="dropdown-item" href="Solicitor.html">Solicitors</a></li>
+        <li><a class="dropdown-item" href="#">Solicitors</a></li>
         <li><hr class="dropdown-divider"></li>
         <li>
           <a class="dropdown-item text-danger" href="index.html" onclick="logout()">Logout</a>
@@ -165,6 +165,19 @@
 <!-- DASHBOARD CONTENT -->
 <div class="container py-5">
   <h1 class="mb-4">Dashboard</h1>
+
+ <div class="row g-4">
+  <div class="col-md-6">
+    <a href="TaskList.html" class="text-decoration-none text-reset">
+      <div class="dashboard-card">
+        <h5>My Task list</h5>
+        <h2>12</h2>
+      </div>
+    </a>
+  </div>
+</div>
+
+  <br>
 
   <div class="row g-4">
     <div class="col-md-3">
@@ -202,7 +215,7 @@
 
   <!-- BROKER STATS -->
 <div class="row mt-5">
-  <div class="col-md-6">
+  <div class="col-12">
     <div class="dashboard-card">
       <h4 class="mb-4">Top Brokers – Conversion Performance</h4>
 
@@ -223,9 +236,12 @@
       </div>
     </div>
   </div>
+  
+</div>
 
-  <!-- BDM Stats Table -->
-  <div class="col-md-6">
+<!-- BDM STATS -->
+<div class="row mt-5">
+  <div class="col-12">
     <div class="dashboard-card">
       <h4 class="mb-4">BDM Conversion Performance</h4>
 
@@ -244,6 +260,7 @@
           </tbody>
         </table>
       </div>
+
     </div>
   </div>
 </div>
@@ -416,9 +433,3 @@ bdmStats.forEach(bdm => {
 
 </body>
 </html>
-
-
-
-
-
-
