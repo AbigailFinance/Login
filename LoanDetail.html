@@ -158,11 +158,20 @@
   <div class="dashboard-card mb-4">
     <div class="d-flex justify-content-between align-items-start mb-3">
 
-      <!-- Left: Company & Borrower -->
-      <div>
-        <h1 class="mb-1">Oakwood Developments Ltd</h1>
-        <h3 class="mb-0">John Smith</h3>
-      </div>
+      <!-- Left: Image + Company & Borrower -->
+    <div class="d-flex align-items-center gap-3">
+      <img
+        src="loanimage.png"
+        alt="Company Logo"
+        class="rounded"
+        style="width: 100px; height: 100px; object-fit: cover;"
+  >
+  <div>
+    <h1 class="mb-1">Oakwood Developments Ltd</h1>
+    <h3 class="mb-0">John Smith</h3>
+  </div>
+</div>
+
 
       <!-- Buttons container -->
     <div class="d-flex gap-2">
@@ -188,10 +197,44 @@
 
     <!-- Loan info -->
     <div class="row">
-      <div class="col-md-3"><div class="text-muted">Gross loan Amount:<br>£750,000</div></div>
-      <div class="col-md-3"><div class="text-muted">Security Address<br>45 Bridge Street, Leeds LS1 2AB</div></div>
-      <div class="col-md-3"><div class="text-muted">Loan Type<br>Retained</div></div>
-      <div class="col-md-3"><div class="text-muted">Rate<br>7.25%</div></div>
+      <div class="col-md-3"><div class="text-muted"><strong>Gross loan Amount</strong><br>£750,000</div></div>
+      <div class="col-md-3"><div class="text-muted"><strong>Security Address</strong><br>45 Bridge Street, Leeds LS1 2AB</div></div>
+      <div class="col-md-2"><div class="text-muted"><strong>Loan Type</strong><br>Retained</div></div>
+      <div class="col-md-2"><div class="text-muted"><strong>Rate</strong><br>7.25%</div></div>
+      <div class="col-md-2"><div class="text-muted"><Strong>Exit</Strong><br>Sale</div></div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"><div class="text-muted"><strong>Property Summary</strong><br>Terrace</div></div>
+      <div class="col-md-3"><div class="text-muted"><strong>Bedooms</strong><br>3</div></div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-3">
+  <div class="text-muted d-flex align-items-center gap-2">
+    <strong>Follow Up Owner</strong>
+    <select
+      class="form-select form-select-sm border-0 bg-transparent p-0"
+      style="width: 160px;"
+    >
+      <option selected>Paul Waters</option>
+      <option>Jack Tolchard</option>
+      <option>Justin Bweckwith</option>
+    </select>
+      </div>
+</div>
+
+      <div class="col-md-3">
+  <div class="text-muted d-flex align-items-center gap-2">
+    <strong>Follow Up Date</strong>
+    <input
+      type="date"
+      class="form-control form-control-sm border-0 bg-transparent p-0"
+      value="2026-01-09"
+      style="width: 130px;"
+    >
+  </div>
+</div>
+
     </div>
   </div>
 
@@ -206,6 +249,7 @@
     </div>
   </div>
 
+  
   <!-- CHECKLIST -->
   <div class="dashboard-card">
     <h3 id="stageTitle" class="mb-3">Prospect Requirements</h3>
